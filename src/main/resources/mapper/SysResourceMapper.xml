@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.zx.learn.dao.SysResourceMapper">
+  <resultMap id="BaseResultMap" type="org.zx.learn.model.SysResource">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="resource_type" jdbcType="CHAR" property="resourceType" />
+    <result column="resource_path" jdbcType="VARCHAR" property="resourcePath" />
+    <result column="resource_permission" jdbcType="VARCHAR" property="resourcePermission" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, resource_type, resource_path, resource_permission
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sys_resource
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from sys_resource
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="org.zx.learn.model.SysResource">
+    insert into sys_resource (id, resource_type, resource_path, 
+      resource_permission)
+    values (#{id,jdbcType=INTEGER}, #{resourceType,jdbcType=CHAR}, #{resourcePath,jdbcType=VARCHAR}, 
+      #{resourcePermission,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="org.zx.learn.model.SysResource">
+    insert into sys_resource
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="resourceType != null">
+        resource_type,
+      </if>
+      <if test="resourcePath != null">
+        resource_path,
+      </if>
+      <if test="resourcePermission != null">
+        resource_permission,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="resourceType != null">
+        #{resourceType,jdbcType=CHAR},
+      </if>
+      <if test="resourcePath != null">
+        #{resourcePath,jdbcType=VARCHAR},
+      </if>
+      <if test="resourcePermission != null">
+        #{resourcePermission,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="org.zx.learn.model.SysResource">
+    update sys_resource
+    <set>
+      <if test="resourceType != null">
+        resource_type = #{resourceType,jdbcType=CHAR},
+      </if>
+      <if test="resourcePath != null">
+        resource_path = #{resourcePath,jdbcType=VARCHAR},
+      </if>
+      <if test="resourcePermission != null">
+        resource_permission = #{resourcePermission,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.zx.learn.model.SysResource">
+    update sys_resource
+    set resource_type = #{resourceType,jdbcType=CHAR},
+      resource_path = #{resourcePath,jdbcType=VARCHAR},
+      resource_permission = #{resourcePermission,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
