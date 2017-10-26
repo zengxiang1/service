@@ -4,11 +4,15 @@
   <resultMap id="BaseResultMap" type="org.zx.learn.model.SysResource">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="resource_type" jdbcType="CHAR" property="resourceType" />
+    <result column="resource_name" jdbcType="VARCHAR" property="resourceName" />
     <result column="resource_path" jdbcType="VARCHAR" property="resourcePath" />
     <result column="resource_permission" jdbcType="VARCHAR" property="resourcePermission" />
+    <result column="resource_priority" jdbcType="INTEGER" property="resourcePriority" />
+    <result column="parent_id" jdbcType="INTEGER" property="parentId" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, resource_type, resource_path, resource_permission
+    id, resource_type, resource_name, resource_path, resource_permission, resource_priority, 
+    parent_id
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -21,10 +25,12 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="org.zx.learn.model.SysResource">
-    insert into sys_resource (id, resource_type, resource_path, 
-      resource_permission)
-    values (#{id,jdbcType=INTEGER}, #{resourceType,jdbcType=CHAR}, #{resourcePath,jdbcType=VARCHAR}, 
-      #{resourcePermission,jdbcType=VARCHAR})
+    insert into sys_resource (id, resource_type, resource_name, 
+      resource_path, resource_permission, resource_priority, 
+      parent_id)
+    values (#{id,jdbcType=INTEGER}, #{resourceType,jdbcType=CHAR}, #{resourceName,jdbcType=VARCHAR}, 
+      #{resourcePath,jdbcType=VARCHAR}, #{resourcePermission,jdbcType=VARCHAR}, #{resourcePriority,jdbcType=INTEGER}, 
+      #{parentId,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="org.zx.learn.model.SysResource">
     insert into sys_resource
@@ -35,11 +41,20 @@
       <if test="resourceType != null">
         resource_type,
       </if>
+      <if test="resourceName != null">
+        resource_name,
+      </if>
       <if test="resourcePath != null">
         resource_path,
       </if>
       <if test="resourcePermission != null">
         resource_permission,
+      </if>
+      <if test="resourcePriority != null">
+        resource_priority,
+      </if>
+      <if test="parentId != null">
+        parent_id,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -49,11 +64,20 @@
       <if test="resourceType != null">
         #{resourceType,jdbcType=CHAR},
       </if>
+      <if test="resourceName != null">
+        #{resourceName,jdbcType=VARCHAR},
+      </if>
       <if test="resourcePath != null">
         #{resourcePath,jdbcType=VARCHAR},
       </if>
       <if test="resourcePermission != null">
         #{resourcePermission,jdbcType=VARCHAR},
+      </if>
+      <if test="resourcePriority != null">
+        #{resourcePriority,jdbcType=INTEGER},
+      </if>
+      <if test="parentId != null">
+        #{parentId,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -63,11 +87,20 @@
       <if test="resourceType != null">
         resource_type = #{resourceType,jdbcType=CHAR},
       </if>
+      <if test="resourceName != null">
+        resource_name = #{resourceName,jdbcType=VARCHAR},
+      </if>
       <if test="resourcePath != null">
         resource_path = #{resourcePath,jdbcType=VARCHAR},
       </if>
       <if test="resourcePermission != null">
         resource_permission = #{resourcePermission,jdbcType=VARCHAR},
+      </if>
+      <if test="resourcePriority != null">
+        resource_priority = #{resourcePriority,jdbcType=INTEGER},
+      </if>
+      <if test="parentId != null">
+        parent_id = #{parentId,jdbcType=INTEGER},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
@@ -75,8 +108,11 @@
   <update id="updateByPrimaryKey" parameterType="org.zx.learn.model.SysResource">
     update sys_resource
     set resource_type = #{resourceType,jdbcType=CHAR},
+      resource_name = #{resourceName,jdbcType=VARCHAR},
       resource_path = #{resourcePath,jdbcType=VARCHAR},
-      resource_permission = #{resourcePermission,jdbcType=VARCHAR}
+      resource_permission = #{resourcePermission,jdbcType=VARCHAR},
+      resource_priority = #{resourcePriority,jdbcType=INTEGER},
+      parent_id = #{parentId,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>
