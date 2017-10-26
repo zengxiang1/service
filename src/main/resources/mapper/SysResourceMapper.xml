@@ -115,4 +115,8 @@
       parent_id = #{parentId,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <select id="listAllMenu" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/> from sys_resource where resource_type ='menu' order by resource_priority ASC
+  </select>
 </mapper>

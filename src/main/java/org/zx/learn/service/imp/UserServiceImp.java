@@ -7,12 +7,18 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.zx.learn.dao.LocalAuthMapper;
+import org.zx.learn.dao.SysResourceMapper;
 import org.zx.learn.dao.SysUserMapper;
 import org.zx.learn.dto.AuthDTO;
+import org.zx.learn.dto.SysResourceDTO;
 import org.zx.learn.dto.UserDTO;
 import org.zx.learn.model.LocalAuth;
+import org.zx.learn.model.SysResource;
 import org.zx.learn.model.SysUser;
 import org.zx.learn.service.UserService;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -25,6 +31,8 @@ public class UserServiceImp implements UserService{
     private static final Logger log = LoggerFactory.getLogger(UserServiceImp.class);
     @Resource
     private LocalAuthMapper localAuthMapper;
+    @Resource
+    private SysResourceMapper sysResourceMapper;
 
 
     @Override
@@ -34,5 +42,23 @@ public class UserServiceImp implements UserService{
         AuthDTO authDTO = new AuthDTO();
         BeanUtils.copyProperties(localAuth,authDTO);
         return authDTO;
+    }
+
+    @Override
+    public List<SysResourceDTO> listAllMenu() {
+        List<SysResource> sysResourceList = sysResourceMapper.listAllMenu();
+        if (sysResourceList != null && sysResourceList.size() > 0) {
+            List<SysResourceDTO> resultList = new ArrayList<SysResourceDTO>();
+            for (SysResource sysResource : sysResourceList){
+                SysResourceDTO temp = new SysResourceDTO();
+                BeanUtils.copyProperties(sysResource, temp);
+                resultList.add(temp);
+            }
+            return resultList;
+        } else {
+            return null;
+        }
+
+
     }
 }
