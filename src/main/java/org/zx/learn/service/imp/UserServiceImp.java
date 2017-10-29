@@ -1,5 +1,10 @@
 package org.zx.learn.service.imp;
 
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Map;
 import javax.annotation.Resource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,26 +44,57 @@ public class UserServiceImp implements UserService{
     public AuthDTO getAuthenticateInfo(String s) {
         log.debug("根据用户姓名获取用户认证信息");
         LocalAuth localAuth = localAuthMapper.getAuthByAccountName(s);
+        if (localAuth == null) {
+            return null;
+        }
         AuthDTO authDTO = new AuthDTO();
         BeanUtils.copyProperties(localAuth,authDTO);
         return authDTO;
     }
 
     @Override
-    public List<SysResourceDTO> listAllMenu() {
+    public List<List<SysResourceDTO>> listAllMenu() {
         List<SysResource> sysResourceList = sysResourceMapper.listAllMenu();
-        if (sysResourceList != null && sysResourceList.size() > 0) {
-            List<SysResourceDTO> resultList = new ArrayList<SysResourceDTO>();
-            for (SysResource sysResource : sysResourceList){
-                SysResourceDTO temp = new SysResourceDTO();
-                BeanUtils.copyProperties(sysResource, temp);
-                resultList.add(temp);
+        List<List<SysResourceDTO>> lists = new ArrayList<List<SysResourceDTO>>();
+        Map<Integer,List<SysResourceDTO>> listMap = new HashMap<Integer, List<SysResourceDTO>>();
+        //遍历菜单
+        //一级菜单在第一个元素
+        for (SysResource sysResource : sysResourceList) {
+            SysResourceDTO sysResourceDTO = new SysResourceDTO();
+            BeanUtils.copyProperties(sysResource, sysResourceDTO);
+
+            if (sysResource.getParentId() == null) {
+                List<SysResourceDTO> sysResourceDTOS = new ArrayList<SysResourceDTO>();
+                sysResourceDTOS.add(sysResourceDTO);
+                listMap.put(sysResource.getId(), sysResourceDTOS);
+            } else {
+                List<SysResourceDTO> sysResourceDTOList = listMap.get(sysResource.getParentId());
+                sysResourceDTOList.add(sysResourceDTO);
+                listMap.put(sysResource.getParentId(), sysResourceDTOList);
             }
-            return resultList;
-        } else {
-            return null;
         }
-
-
+        Collection<List<SysResourceDTO>> listCollections = listMap.values();
+        for (List<SysResourceDTO> sysResourceDTOS :listCollections){
+            Collections.sort(sysResourceDTOS, new Comparator<SysResourceDTO>() {
+                @Override
+                public int compare(SysResourceDTO o1, SysResourceDTO o2) {
+                    if (o1.getParentId() == null || o1.getParentId() == 0){
+                        return -1;
+                    } else if ( o2.getResourcePriority() == null || o2.getResourcePriority() == 0){
+                        return 1;
+                    } else {
+                        return (o1.getResourcePriority() < o2.getResourcePriority()) ? -1 : 1;
+                    }
+                }
+            });
+            lists.add(sysResourceDTOS);
+        }
+        Collections.sort(lists, new Comparator<List<SysResourceDTO>>() {
+            @Override
+            public int compare(List<SysResourceDTO> o1, List<SysResourceDTO> o2) {
+                return o1.get(0).getResourcePriority() > o2.get(0).getResourcePriority() ? 1 : -1;
+            }
+        });
+        return lists;
     }
 }
