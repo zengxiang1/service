@@ -86,7 +86,7 @@
   </select>
   <delete id="deleteRoleById" parameterType="java.util.List">
       DELETE FROM sys_role where id in
-      <foreach collection="#{0}" item="id" open="(" separator="," close=")" >
+      <foreach collection="list" item="id" open="(" separator="," close=")" >
           #{id}
       </foreach>
   </delete>
