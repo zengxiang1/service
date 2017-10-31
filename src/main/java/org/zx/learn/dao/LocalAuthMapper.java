@@ -2,7 +2,7 @@ package org.zx.learn.dao;
 
 import org.zx.learn.model.LocalAuth;
 
-public interface LocalAuthMapper {
+public interface LocalAuthMapper{
     int deleteByPrimaryKey(Integer id);
 
     int insert(LocalAuth record);
