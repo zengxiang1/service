@@ -114,4 +114,16 @@
       register_time = #{registerTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+
+  <select id="getAllUser" resultType="org.zx.learn.dto.UserDTO">
+      SELECT id,real_name as realName,phone_number as phoneNumber,address,age,sex,date_format(register_time, '%Y-%m-%d') as registerTime FROM sys_user
+  </select>
+
+  <delete id="deleteUserInfoById">
+    DELETE FROM sys_user where id in
+    <foreach collection="list" item="id" open="(" separator="," close=")" >
+      #{id}
+    </foreach>
+  </delete>
 </mapper>

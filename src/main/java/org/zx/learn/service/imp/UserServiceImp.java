@@ -17,6 +17,7 @@ import org.zx.learn.dao.SysUserMapper;
 import org.zx.learn.dto.AuthDTO;
 import org.zx.learn.dto.SysResourceDTO;
 import org.zx.learn.dto.UserDTO;
+import org.zx.learn.exception.ServiceException;
 import org.zx.learn.model.LocalAuth;
 import org.zx.learn.model.SysResource;
 import org.zx.learn.model.SysUser;
@@ -38,6 +39,8 @@ public class UserServiceImp implements UserService{
     private LocalAuthMapper localAuthMapper;
     @Resource
     private SysResourceMapper sysResourceMapper;
+    @Resource
+    private  SysUserMapper sysUserMapper;
 
 
     @Override
@@ -96,5 +99,18 @@ public class UserServiceImp implements UserService{
             }
         });
         return lists;
+    }
+
+    @Override
+    public List<UserDTO> getAllUser(Map<String, String> map) {
+
+        List<UserDTO> resultList = sysUserMapper.getAllUser(map);
+        return resultList;
+    }
+
+    @Override
+    public int deleteUserInfoById(List<Integer> list) throws ServiceException {
+
+        return sysUserMapper.deleteUserInfoById(list);
     }
 }
