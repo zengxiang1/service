@@ -29,4 +29,17 @@ public interface SysRoleMapper {
      * @return
      */
     int deleteRoleById(List<Integer> ids);
+
+    /**
+     * 查询所有的顶级角色
+     * @return
+     */
+    List<SysRole> listAllTopRole();
+
+    /**
+     * 根据父角色id查询所有角色
+     * @param id
+     * @return
+     */
+    List<SysRole> listRoleByParent(Integer id);
 }

@@ -90,4 +90,14 @@
           #{id}
       </foreach>
   </delete>
+
+  <select id="listAllTopRole" resultMap="BaseResultMap">
+    SELECT <include refid="Base_Column_List"/>
+    from sys_role where parent_id is null
+  </select>
+
+  <select id="listRoleByParent" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    SELECT <include refid="Base_Column_List"/>
+    from sys_role where parent_id = #{0}
+  </select>
 </mapper>
