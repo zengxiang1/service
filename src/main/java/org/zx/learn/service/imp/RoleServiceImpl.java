@@ -20,12 +20,12 @@ import org.zx.learn.service.RoleService;
  * @author xiang zeng
  */
 @Service("roleService")
-public class RoleServiceImp implements RoleService {
+public class RoleServiceImpl implements RoleService {
 
     @Resource
     private SysRoleMapper sysRoleMapper;
 
-    private static final Logger log = LoggerFactory.getLogger(RoleServiceImp.class);
+    private static final Logger log = LoggerFactory.getLogger(RoleServiceImpl.class);
 
     @Override
     public List<SysRoleDTO> listAllRole() throws ServiceException{
@@ -33,7 +33,7 @@ public class RoleServiceImp implements RoleService {
         if (sysRoleList == null || sysRoleList.size() == 0) {
             throw new ServiceException(ExceptionMsg.NO_DATA_ERROR_MSG);
         }
-        List<SysRoleDTO> resultList = new ArrayList<SysRoleDTO>();
+        List<SysRoleDTO> resultList = new ArrayList<>();
         for (SysRole sysRole : sysRoleList) {
             SysRoleDTO temp = new SysRoleDTO();
             BeanUtils.copyProperties(sysRole, temp);
@@ -64,7 +64,7 @@ public class RoleServiceImp implements RoleService {
         if (sysRoleList == null || sysRoleList.size() == 0) {
             throw new ServiceException(ExceptionMsg.NO_DATA_ERROR_MSG);
         }
-        List<SysRoleDTO> resultList = new ArrayList<SysRoleDTO>();
+        List<SysRoleDTO> resultList = new ArrayList<>();
         for (SysRole sysRole : sysRoleList) {
             SysRoleDTO temp = new SysRoleDTO();
             BeanUtils.copyProperties(sysRole, temp);
@@ -81,7 +81,7 @@ public class RoleServiceImp implements RoleService {
         if (sysRoleList == null || sysRoleList.size() == 0) {
             throw new ServiceException(ExceptionMsg.NO_DATA_ERROR_MSG);
         }
-        List<SysRoleDTO> resultList = new ArrayList<SysRoleDTO>();
+        List<SysRoleDTO> resultList = new ArrayList<>();
         for (SysRole sysRole : sysRoleList) {
             SysRoleDTO temp = new SysRoleDTO();
             BeanUtils.copyProperties(sysRole, temp);

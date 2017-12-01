@@ -32,9 +32,9 @@ import java.util.List;
  * @date 2017/10/24
  */
 @Service("userService")
-public class UserServiceImp implements UserService{
+public class UserServiceImpl implements UserService{
 
-    private static final Logger log = LoggerFactory.getLogger(UserServiceImp.class);
+    private static final Logger log = LoggerFactory.getLogger(UserServiceImpl.class);
     @Resource
     private LocalAuthMapper localAuthMapper;
     @Resource

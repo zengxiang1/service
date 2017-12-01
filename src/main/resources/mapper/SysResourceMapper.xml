@@ -119,4 +119,12 @@
   <select id="listAllMenu" resultMap="BaseResultMap">
     select <include refid="Base_Column_List"/> from sys_resource where resource_type ='menu' order by resource_priority ASC
   </select>
+
+  <select id="listTopResource" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/> from sys_resource where parent_id is null order by resource_priority ASC
+  </select>
+
+  <select id="listResourceByParent" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+    select <include refid="Base_Column_List"/> from sys_resource where parent_id = #{0} order by resource_priority ASC
+  </select>
 </mapper>
