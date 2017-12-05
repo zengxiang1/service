@@ -87,7 +87,7 @@ public class ResourceServiceImpl implements ResourceService {
         int size = 0;
         for (int i = 0; i < ids.size(); i++){
             List<SysResource> sysResourceList = sysResourceMapper.listResourceByParent(ids.get(i));
-            if (sysResourceList != null){
+            if (sysResourceList != null && sysResourceList.size()  > 0){
                 continue;
             }
             sysResourceMapper.deleteByPrimaryKey(ids.get(i));
