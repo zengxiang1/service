@@ -28,8 +28,6 @@
             <property name="enableSubPackages" value="true"/>
         </javaClientGenerator>
         <table tableName="sys_resource" domainObjectName="SysResource" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
-          <ignoreColumn column="gmt_create"/>
-          <ignoreColumn column="gmt_update"/>
 
         </table>
     </context>

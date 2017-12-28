@@ -22,4 +22,8 @@ public interface SysUserMapper {
     List<UserDTO> getAllUser(Map<String , String> paramsMap);
 
     int deleteUserInfoById(List<Integer> ids);
+
+    int editUserInfoById(UserDTO userDTO);
+
+    Map<String, String> addUserInfo(Map<String, Object> paramsMap);
 }

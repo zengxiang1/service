@@ -13,5 +13,7 @@
   <dubbo:registry address="${dubbo.register.address}"></dubbo:registry>
   <dubbo:service interface="org.zx.learn.service.UserService" ref="userService"/>
   <dubbo:service interface="org.zx.learn.service.RoleService" ref="roleService"/>
+  <dubbo:service interface="org.zx.learn.service.ResourceService" ref="resourceService"/>
+  <dubbo:service interface="org.zx.learn.service.AuthService" ref="authService"/>
 
 </beans>
