@@ -126,4 +126,21 @@
       #{id}
     </foreach>
   </delete>
+
+  <update id="editUserInfoById" parameterType="org.zx.learn.dto.UserDTO">
+    UPDATE sys_user
+    SET
+    real_name = #{realName,jdbcType=VARCHAR},
+    age = #{age,jdbcType=INTEGER},
+    address = #{address,jdbcType=VARCHAR},
+    phone_number = #{phoneNumber,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+
+  </update>
+
+  <select id="addUserInfo" parameterType="map" statementType="CALLABLE" resultType="map">
+    {call pro_add_userInfo(
+		#{accountName},#{accountPwd},#{sysRole},#{realName},#{age},#{sex},#{phoneNumber},#{address},?,?
+	)}
+  </select>
 </mapper>

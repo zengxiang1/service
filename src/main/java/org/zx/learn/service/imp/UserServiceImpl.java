@@ -1,4 +1,5 @@
 package org.zx.learn.service.imp;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -18,6 +19,13 @@ import org.zx.learn.service.UserService;
 import javax.annotation.Resource;
 import java.util.*;
 
+import javax.annotation.Resource;
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.util.*;
+
 /**
  *
  * @author xiang zeng
@@ -28,7 +36,7 @@ public class UserServiceImpl implements UserService{
 
     private static final Logger log = LoggerFactory.getLogger(UserServiceImpl.class);
     @Resource
-    private LocalAuthMapper localAuthMapper;
+    LocalAuthMapper localAuthMapper;
     @Resource
     private SysResourceMapper sysResourceMapper;
     @Resource
@@ -105,7 +113,6 @@ public class UserServiceImpl implements UserService{
 
         return sysUserMapper.deleteUserInfoById(list);
     }
-
     @Override
     public UserDTO getUserById(Integer id) throws ServiceException {
         SysUser sysUser = sysUserMapper.selectByPrimaryKey(id);
@@ -127,5 +134,27 @@ public class UserServiceImpl implements UserService{
         String roleIds = localAuth.getSysRole();
         List<String> permissions = new ArrayList<>();
         return permissions;
+    }
+
+    @Override
+    public int editUserInfoById(UserDTO userDTO) throws ServiceException {
+
+        return sysUserMapper.editUserInfoById(userDTO);
+    }
+
+    @Override
+    public Map<String, String> addUserInfo(UserDTO userDTO, AuthDTO authDTO) {
+
+        Map<String, Object> paramsMap = new HashMap<String, Object>();
+        paramsMap.put("sysRole",authDTO.getSysRole());
+        paramsMap.put("realName",userDTO.getRealName());
+        paramsMap.put("age",userDTO.getAge());
+        paramsMap.put("sex",userDTO.getSex());
+        paramsMap.put("phoneNumber",userDTO.getPhoneNumber());
+        paramsMap.put("address",userDTO.getAddress());
+        paramsMap.put("accountName",authDTO.getAccountName());
+        paramsMap.put("accountPwd",authDTO.getAccountPwd());
+
+        return sysUserMapper.addUserInfo(paramsMap);
     }
 }
