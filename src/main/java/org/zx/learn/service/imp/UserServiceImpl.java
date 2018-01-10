@@ -1,15 +1,7 @@
 package org.zx.learn.service.imp;
-
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Map;
-import javax.annotation.Resource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.zx.learn.dao.LocalAuthMapper;
 import org.zx.learn.dao.SysResourceMapper;
@@ -17,14 +9,14 @@ import org.zx.learn.dao.SysUserMapper;
 import org.zx.learn.dto.AuthDTO;
 import org.zx.learn.dto.SysResourceDTO;
 import org.zx.learn.dto.UserDTO;
+import org.zx.learn.exception.ExceptionMsg;
 import org.zx.learn.exception.ServiceException;
 import org.zx.learn.model.LocalAuth;
 import org.zx.learn.model.SysResource;
 import org.zx.learn.model.SysUser;
 import org.zx.learn.service.UserService;
-
-import java.util.ArrayList;
-import java.util.List;
+import javax.annotation.Resource;
+import java.util.*;
 
 /**
  *
@@ -112,5 +104,28 @@ public class UserServiceImpl implements UserService{
     public int deleteUserInfoById(List<Integer> list) throws ServiceException {
 
         return sysUserMapper.deleteUserInfoById(list);
+    }
+
+    @Override
+    public UserDTO getUserById(Integer id) throws ServiceException {
+        SysUser sysUser = sysUserMapper.selectByPrimaryKey(id);
+        if(sysUser == null) {
+            throw new ServiceException(ExceptionMsg.NO_DATA_ERROR_MSG);
+        }
+        UserDTO result = new UserDTO();
+        BeanUtils.copyProperties(sysUser, result);
+        return result;
+    }
+
+    @Override
+    public List<String> getUserStringPermissions(Integer authId) throws ServiceException {
+
+        LocalAuth localAuth = localAuthMapper.selectByPrimaryKey(authId);
+        if (localAuth == null){
+            throw new ServiceException(ExceptionMsg.NO_DATA_ERROR_MSG);
+        }
+        String roleIds = localAuth.getSysRole();
+        List<String> permissions = new ArrayList<>();
+        return permissions;
     }
 }

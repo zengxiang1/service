@@ -36,4 +36,11 @@ public interface SysResourceMapper {
      */
     List<SysResource> listResourceByParent(Integer id);
 
+    /**
+     * 查询这些角色的所有资源权限符
+     * @param roleIds
+     * @return
+     */
+    List<String> listStringPermission(String roleIds);
+
 }
