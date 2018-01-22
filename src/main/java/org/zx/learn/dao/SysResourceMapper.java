@@ -38,9 +38,9 @@ public interface SysResourceMapper {
 
     /**
      * 查询这些角色的所有资源权限符
-     * @param roleIds
+     * @param authId
      * @return
      */
-    List<String> listStringPermission(String roleIds);
+    List<SysResource> listPermission(Integer authId);
 
 }

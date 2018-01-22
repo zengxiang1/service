@@ -127,4 +127,10 @@
   <select id="listResourceByParent" resultMap="BaseResultMap" parameterType="java.lang.Integer">
     select <include refid="Base_Column_List"/> from sys_resource where parent_id = #{0} order by resource_priority ASC
   </select>
+
+  <select id="listPermission" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+      select <include refid="Base_Column_List"/>
+      from sys_resource
+    where  find_in_set(id,(select group_concat(resource) from sys_role where find_in_set(id,(select sys_role from local_auth where id = #{0,jdbcType=INTEGER} ))))
+  </select>
 </mapper>

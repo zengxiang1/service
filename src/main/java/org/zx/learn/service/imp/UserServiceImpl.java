@@ -16,14 +16,8 @@ import org.zx.learn.model.LocalAuth;
 import org.zx.learn.model.SysResource;
 import org.zx.learn.model.SysUser;
 import org.zx.learn.service.UserService;
-import javax.annotation.Resource;
-import java.util.*;
 
 import javax.annotation.Resource;
-import java.sql.CallableStatement;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
 import java.util.*;
 
 /**
@@ -125,15 +119,27 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public List<String> getUserStringPermissions(Integer authId) throws ServiceException {
+    public List<SysResourceDTO> listResourcePermissions(Integer authId) throws ServiceException {
 
         LocalAuth localAuth = localAuthMapper.selectByPrimaryKey(authId);
+        if (authId == null ){
+            throw  new ServiceException((ExceptionMsg.ILLEGAL_ARGUMENT_ERROR_MSG),"认证id");
+        }
         if (localAuth == null){
             throw new ServiceException(ExceptionMsg.NO_DATA_ERROR_MSG);
         }
-        String roleIds = localAuth.getSysRole();
-        List<String> permissions = new ArrayList<>();
-        return permissions;
+        List<SysResource> sysResources = sysResourceMapper.listPermission(authId);
+        if (sysResources == null || sysResources.size() == 0 ){
+            throw new ServiceException((ExceptionMsg.NO_DATA_ERROR_MSG));
+        }
+        List<SysResourceDTO> result = new ArrayList<>();
+        for (SysResource temp: sysResources ) {
+            SysResourceDTO sysResourceDTO = new SysResourceDTO();
+            BeanUtils.copyProperties(temp,sysResourceDTO);
+            result.add(sysResourceDTO);
+        }
+        return result;
+
     }
 
     @Override
